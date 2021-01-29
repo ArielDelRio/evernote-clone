@@ -2,17 +2,8 @@ import React, { Component } from "react";
 import ReactQuill from "react-quill";
 import debounce from "../../helper";
 import BorderColorIcon from "@material-ui/icons/BorderColor";
-import {
-  FormControl,
-  Input,
-  InputAdornment,
-  InputLabel,
-  TextField,
-  withStyles,
-  Grid,
-} from "@material-ui/core";
+import { TextField, withStyles, Grid } from "@material-ui/core";
 import styles from "./Editor.style";
-import { AccountCircle } from "@material-ui/icons";
 
 class Editor extends Component {
   constructor() {

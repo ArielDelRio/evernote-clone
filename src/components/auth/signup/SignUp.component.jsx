@@ -14,7 +14,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { CircularProgress } from "@material-ui/core";
 
-
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -52,10 +51,10 @@ const useStyles = makeStyles((theme) => ({
     left: "50%",
     marginTop: -12,
     marginLeft: -12,
-  }
+  },
 }));
 
-export default function SignUp({ signUp, loading, setshowSignUp }) {
+export default function SignUp({ signUp, loading, setshowSignUp, validation }) {
   const classes = useStyles();
 
   const handleSubmit = (event) => {
@@ -109,6 +108,8 @@ export default function SignUp({ signUp, loading, setshowSignUp }) {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                error={validation.email.error}
+                helperText={validation.email.helperText}
                 variant="outlined"
                 required
                 fullWidth
@@ -120,6 +121,8 @@ export default function SignUp({ signUp, loading, setshowSignUp }) {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                error={validation.password.error}
+                helperText={validation.password.helperText}
                 variant="outlined"
                 required
                 fullWidth
@@ -145,7 +148,7 @@ export default function SignUp({ signUp, loading, setshowSignUp }) {
             className={classes.submit}
             disabled={loading}
           >
-          {loading && (
+            {loading && (
               <CircularProgress
                 color="secondary"
                 size={24}

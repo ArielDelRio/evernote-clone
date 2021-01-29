@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -12,7 +12,6 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import firebase from "firebase";
 import { CircularProgress } from "@material-ui/core";
 
 function Copyright() {
@@ -53,11 +52,10 @@ const useStyles = makeStyles((theme) => ({
     left: "50%",
     marginTop: -12,
     marginLeft: -12,
-  }
-
+  },
 }));
 
-export default function SignIn({ signIn, loading, setshowSignUp }) {
+export default function SignIn({ signIn, loading, setshowSignUp, validation }) {
   const classes = useStyles();
 
   const handleSubmit = (event) => {
@@ -65,6 +63,7 @@ export default function SignIn({ signIn, loading, setshowSignUp }) {
 
     const email = event.target["email"].value;
     const password = event.target["password"].value;
+
     signIn(email, password);
     event.target.reset();
   };
@@ -81,6 +80,8 @@ export default function SignIn({ signIn, loading, setshowSignUp }) {
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <TextField
+            error={validation.email.error}
+            helperText={validation.email.helperText}
             variant="outlined"
             margin="normal"
             required
@@ -92,6 +93,8 @@ export default function SignIn({ signIn, loading, setshowSignUp }) {
             autoFocus
           />
           <TextField
+            error={validation.password.error}
+            helperText={validation.password.helperText}
             variant="outlined"
             margin="normal"
             required
