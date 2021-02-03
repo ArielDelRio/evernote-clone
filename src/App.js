@@ -68,7 +68,7 @@ const App = () => {
     isDrawerOpen: true,
     newNoteDialogOpen: false,
     isOffline: false,
-    isAuth: false,
+    isAuth: true,
   });
 
   useEffect(() => {
@@ -95,9 +95,10 @@ const App = () => {
     }));
   };
 
-  const newNote = async (title) => {
+  const newNote = async ({ title, type }) => {
     const newNotefromDB = await firebase.firestore().collection("notes").add({
       title: title,
+      type: type.id,
       body: "",
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
@@ -105,6 +106,7 @@ const App = () => {
     const selectedNote = {
       id: newNotefromDB.id,
       title: title,
+      typeEdition: type,
       body: "",
     };
 
@@ -124,6 +126,7 @@ const App = () => {
     console.log(note);
     firebase.firestore().collection("notes").doc(id).update({
       title: note.title,
+      type: note.type,
       body: note.body,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
@@ -229,15 +232,15 @@ const App = () => {
             noteUpdate={noteUpdate}
           />
         ) : (
-            <div className={classes.dashboard}>
-              <img src="./react.png" alt="Evernote dashboard Logo" />
-            </div>
-          )}
+          <div className={classes.dashboard}>
+            <img src="./react.png" alt="Evernote dashboard Logo" />
+          </div>
+        )}
       </Box>
     </div>
   ) : (
-      <Auth authenticate={authenticate} />
-    );
+    <Auth authenticate={authenticate} />
+  );
 };
 
 export default App;

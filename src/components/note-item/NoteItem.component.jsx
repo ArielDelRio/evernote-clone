@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { removeHTMLTags } from "../../helper";
+import { removeHTMLTags, getMarkdownText } from "../../helper";
 import { ListItem, ListItemText } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import useStyles from "./NoteItem.style";
+import EDITION_TYPES from "../../EditionTypes";
 
 const NoteItem = ({
   selectNote,
@@ -21,6 +22,24 @@ const NoteItem = ({
     }
   };
 
+  const textPreview = () => {
+    console.log(_note.body);
+    const text = "";
+    switch (_note.type) {
+      case EDITION_TYPES.QUILL:
+        text = removeHTMLTags(_note.body.substring(0, 30)) + "...";
+        break;
+      case EDITION_TYPES.MARKDOWN:
+        text = getMarkdownText(_note.body.substring(0, 30))) + "...";
+        break;
+
+      default:
+        break;
+    }
+
+    return text;
+  };
+
   return (
     <div key={_index}>
       <ListItem
@@ -30,10 +49,7 @@ const NoteItem = ({
         onClick={() => selectNote(_note, _index)}
       >
         <div className={classes.textSection}>
-          <ListItemText
-            primary={_note.title}
-            secondary={removeHTMLTags(_note.body.substring(0, 30)) + "..."}
-          />
+          <ListItemText primary={_note.title}  />
           <DeleteIcon
             onClick={(event) => handleDeleteNote(_note, event)}
             className={classes.deleteIcon}

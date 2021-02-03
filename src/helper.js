@@ -1,5 +1,5 @@
 import marked from "marked";
-import DOMPurify from 'dompurify';
+import DOMPurify from "dompurify";
 
 export default function debounce(a, b, c) {
   var d, e;
@@ -22,8 +22,8 @@ export function removeHTMLTags(str) {
 
 export function getMarkdownText(str) {
   var rawMarkup = marked(str, { sanitize: true });
-  const markDown = DOMPurify.sanitize(rawMarkup, { USE_PROFILES: { html: true } });
-  console.log(markDown);
+  const markDown = DOMPurify.sanitize(rawMarkup, {
+    USE_PROFILES: { html: true },
+  });
   return markDown;
-};
-
+}

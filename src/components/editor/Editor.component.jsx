@@ -12,24 +12,26 @@ class Editor extends Component {
     this.state = {
       text: "",
       title: "",
+      type: "",
       id: "",
-      type: { quill: false, markdown: true },
     };
   }
 
   componentDidMount() {
     this.setState({
-      text: this.props.selectedNote.body,
-      title: this.props.selectedNote.title,
       id: this.props.selectedNote.id,
+      title: this.props.selectedNote.title,
+      type: this.props.selectedNote.type,
+      text: this.props.selectedNote.body,
     });
   }
   componentDidUpdate() {
     if (this.props.selectedNote.id !== this.state.id) {
       this.setState({
-        text: this.props.selectedNote.body,
-        title: this.props.selectedNote.title,
         id: this.props.selectedNote.id,
+        title: this.props.selectedNote.title,
+        type: this.props.selectedNote.type,
+        text: this.props.selectedNote.body,
       });
     }
   }
@@ -48,6 +50,7 @@ class Editor extends Component {
     this.props.noteUpdate(this.state.id, {
       title: this.state.title,
       body: this.state.text,
+      type: this.state.type,
     });
   }, 1500);
 
