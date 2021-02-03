@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ReactQuill from "react-quill";
+import MarkdownEditor from "../markdown-editor/MarkdownEditor.component";
 import debounce from "../../helper";
 import BorderColorIcon from "@material-ui/icons/BorderColor";
 import { TextField, withStyles, Grid } from "@material-ui/core";
@@ -12,6 +13,7 @@ class Editor extends Component {
       text: "",
       title: "",
       id: "",
+      type: { quill: false, markdown: true },
     };
   }
 
@@ -69,11 +71,15 @@ class Editor extends Component {
             </Grid>
           </Grid>
         </div>
-        <ReactQuill
+        {/* <ReactQuill
           className={classes.quill}
           value={this.state.text}
           onChange={this.handleUpdateBody}
-        ></ReactQuill>
+        /> */}
+        <MarkdownEditor
+          content={this.state.text}
+          handleUpdateBody={this.handleUpdateBody}
+        />
       </div>
     );
   }

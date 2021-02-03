@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SignIn from "./signin/SignIn.component";
 import SignUp from "./signup/SignUp.component";
 import firebase from "firebase";
@@ -29,6 +29,16 @@ const Auth = ({ authenticate }) => {
     email: { error: false, helperText: "" },
     password: { error: false, helperText: "" },
   });
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        authenticate(user);
+      } else {
+        console.log("not login");
+      }
+    });
+  }, []);
 
   const handleCloseSnackbar = () => {
     setvalidation({
@@ -79,20 +89,26 @@ const Auth = ({ authenticate }) => {
 
   const signIn = (email, password) => {
     setloading(true);
+
     firebase
       .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        console.log(userCredential);
-        authenticate(userCredential);
-        setvalidation(CLEAR_VALIDATION);
-        setloading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        const validationInfo = validator(error);
-        setvalidation(validationInfo);
-        setloading(false);
+      .setPersistence(firebase.auth.Auth.Persistence.SESSION)
+      .then(() => {
+        firebase
+          .auth()
+          .signInWithEmailAndPassword(email, password)
+          .then((userCredential) => {
+            console.log(userCredential);
+            authenticate(userCredential);
+            setvalidation(CLEAR_VALIDATION);
+            setloading(false);
+          })
+          .catch((error) => {
+            console.log(error);
+            const validationInfo = validator(error);
+            setvalidation(validationInfo);
+            setloading(false);
+          });
       });
   };
 

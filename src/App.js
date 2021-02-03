@@ -21,7 +21,7 @@ import DialogForm from "../src/components/dialog/Dialog.components";
 
 import Auth from "./components/auth/Auth.component";
 
-const drawerWidth = 240;
+const drawerWidth = 250;
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -72,19 +72,19 @@ const App = () => {
   });
 
   useEffect(() => {
-    if (state.isAuth)
-      firebase
-        .firestore()
-        .collection("notes")
-        .orderBy("timestamp")
-        .onSnapshot((serverUpdate) => {
-          const notes = serverUpdate.docs.map((_doc) => {
-            const data = _doc.data();
-            data["id"] = _doc.id;
-            return data;
-          });
-          setState((prevState) => ({ ...prevState, notes: notes }));
+    firebase
+      .firestore()
+      .collection("notes")
+      .orderBy("timestamp")
+      .onSnapshot((serverUpdate) => {
+        const notes = serverUpdate.docs.map((_doc) => {
+          const data = _doc.data();
+          data["id"] = _doc.id;
+          return data;
         });
+        console.log(notes);
+        setState((prevState) => ({ ...prevState, notes: notes }));
+      });
   }, []);
 
   const selectNote = (note, index) => {
@@ -121,6 +121,7 @@ const App = () => {
 
   const noteUpdate = (id, note) => {
     console.log("update");
+    console.log(note);
     firebase.firestore().collection("notes").doc(id).update({
       title: note.title,
       body: note.body,
@@ -154,12 +155,26 @@ const App = () => {
     setState({ ...state, isAuth: true });
   };
 
+  const logout = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then((value) => {
+        console.log(value);
+        setState({ ...state, isAuth: false });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   console.log(state);
   return state.isAuth ? (
     <div className="app-container">
       <Header
         isDrawerOpen={state.isDrawerOpen}
         handleDrawerToggle={(event) => handleDrawerToggle(event)}
+        logout={logout}
       >
         <Drawer
           isDrawerOpen={state.isDrawerOpen}
@@ -211,19 +226,18 @@ const App = () => {
           <Editor
             selectedNote={state.selectedNote}
             selectedNoteIndex={state.selectedNoteIndex}
-            notes={state.notes}
             noteUpdate={noteUpdate}
           />
         ) : (
-          <div className={classes.dashboard}>
-            <img src="./react.png" alt="Evernote dashboard Logo" />
-          </div>
-        )}
+            <div className={classes.dashboard}>
+              <img src="./react.png" alt="Evernote dashboard Logo" />
+            </div>
+          )}
       </Box>
     </div>
   ) : (
-    <Auth authenticate={authenticate} />
-  );
+      <Auth authenticate={authenticate} />
+    );
 };
 
 export default App;

@@ -1,10 +1,15 @@
-//marked options
-marked.setOptions({ breaks: true });
-
-const renderer = new marked.Renderer();
-renderer.link = function (href, title, text) {
-  return `<a target="_blank" href="${href}">${text}` + "</a>";
-};
+import React from "react";
+import useStyles from "./MarkdownEditor.style";
+import {
+  FormControl,
+  FormHelperText,
+  Grid,
+  Input,
+  InputLabel,
+  Paper,
+  TextField,
+} from "@material-ui/core";
+import { getMarkdownText } from "../../helper";
 
 //theme options
 
@@ -30,6 +35,81 @@ const themes = {
     },
   },
 };
+
+//Editor Component
+const Editor = ({ handleUpdateBody, content, classes }) => (
+  <Paper>
+    <TextField
+      classes={{ root: classes.editorTextArea }}
+      label="Markdown Editor"
+      multiline
+      fullWidth
+      value={content}
+      variant="filled"
+      rows={1}
+      onChange={(e) => handleUpdateBody(e.target.value)}
+      InputProps={{
+        classes: { input: classes.editorInputTextArea },
+      }}
+    />
+  </Paper>
+);
+
+//Preview Component
+const Preview = ({ content, classes }) => (
+  <Paper>
+    <FormControl
+      classes={{ root: classes.editorTextArea }}
+      label="Preview"
+      fullWidth
+      variant="filled"
+    >
+      <InputLabel htmlFor="my-input" shrink>
+        Preview
+      </InputLabel>
+      <Input
+        readOnly
+        disableUnderline
+        id="my-input"
+        multiline
+        rows={1}
+        style={{ margin: 0, padding: 0 }}
+      />
+      <FormHelperText id="my-helper-text">
+        <div
+          className={classes.editorInputTextArea}
+          dangerouslySetInnerHTML={{
+            __html: getMarkdownText(content),
+          }}
+        ></div>
+      </FormHelperText>
+    </FormControl>
+  </Paper>
+);
+
+const MarkdownEditor = ({ content, handleUpdateBody }) => {
+  const classes = useStyles();
+  return (
+    <Grid container className={classes.root} spacing={2}>
+      <Grid item xs={12}>
+        <Grid container>
+          <Grid item sm={6} xs={12}>
+            <Editor
+              content={content}
+              classes={classes}
+              handleUpdateBody={handleUpdateBody}
+            />
+          </Grid>
+          <Grid item sm={6}>
+            <Preview content={content} classes={classes} />
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
+  );
+};
+
+export default MarkdownEditor;
 
 //App Component
 class App extends React.Component {
@@ -107,10 +187,10 @@ class App extends React.Component {
                 }}
               >
                 <div className="card-body">
-                  <Preview
+                  {/* <Preview
                     theme={this.state.configTheme.theme}
                     previewContent={this.state.previewContent}
-                  />
+                  /> */}
                 </div>
               </div>
             </div>
@@ -166,36 +246,6 @@ const Navbar = (props) => {
         </div>
       </ul>
     </nav>
-  );
-};
-
-//Editor Component
-const Editor = (props) => {
-  return (
-    <textarea
-      rows="40"
-      className="form-control h-100 w-100"
-      style={{
-        backgroundColor: props.theme.set1.primary,
-        color: props.theme.set1.secondary,
-      }}
-      id="editor"
-      onChange={(e) => props.change(e.target.value)}
-    >
-      {props.editorContent}
-    </textarea>
-  );
-};
-
-//Preview Component
-const Preview = (props) => {
-  return (
-    <div
-      id="preview"
-      dangerouslySetInnerHTML={{
-        __html: marked(props.previewContent, { renderer: renderer }),
-      }}
-    ></div>
   );
 };
 

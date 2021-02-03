@@ -44,7 +44,7 @@ const Header = ({
   children,
   title,
   user,
-  handleLogout,
+  logout,
   isDrawerOpen,
   handleDrawerToggle,
 }) => {
@@ -71,7 +71,12 @@ const Header = ({
           <Typography variant="h6" className={classes.title}>
             {title}
           </Typography>
-          <Button variant="outlined" color="inherit" endIcon={<ExitToApp />}>
+          <Button
+            variant="outlined"
+            color="inherit"
+            endIcon={<ExitToApp />}
+            onClick={logout}
+          >
             Logout
           </Button>
         </Toolbar>
