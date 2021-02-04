@@ -7,6 +7,7 @@ import debounce, {
   removeHTMLTags,
 } from "../../helper";
 import BorderColorIcon from "@material-ui/icons/BorderColor";
+import QuillEditor from "../quill-editor/QuillEditor.component";
 import {
   TextField,
   withStyles,
@@ -125,10 +126,14 @@ class Editor extends Component {
           </Grid>
         </div>
         {this.state.type === EDITION_TYPES.QUILL.id && (
-          <ReactQuill
-            className={classes.quill}
-            value={this.state.text}
-            onChange={this.handleUpdateBody}
+          // <ReactQuill
+          //   className={classes.quill}
+          //   value={this.state.text}
+          //   onChange={this.handleUpdateBody}
+          // />
+          <QuillEditor
+            content={this.state.text}
+            handleUpdateBody={this.handleUpdateBody}
           />
         )}
         {this.state.type === EDITION_TYPES.MARKDOWN.id && (
