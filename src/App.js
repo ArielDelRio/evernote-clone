@@ -98,7 +98,7 @@ const App = () => {
   const newNote = async ({ title, type }) => {
     const newNotefromDB = await firebase.firestore().collection("notes").add({
       title: title,
-      type: type.id,
+      type: type,
       body: "",
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
@@ -106,11 +106,9 @@ const App = () => {
     const selectedNote = {
       id: newNotefromDB.id,
       title: title,
-      typeEdition: type,
+      type: type,
       body: "",
     };
-
-    console.log(state.notes);
 
     setState({
       ...state,

@@ -1,4 +1,5 @@
 import marked from "marked";
+import TurndownService from "turndown";
 import DOMPurify from "dompurify";
 
 export default function debounce(a, b, c) {
@@ -26,4 +27,11 @@ export function getMarkdownText(str) {
     USE_PROFILES: { html: true },
   });
   return markDown;
+}
+
+export function htmlToMarkdown(str) {
+  const turndownService = new TurndownService();
+  const markRes = turndownService.turndown(str);
+  console.log(markRes);
+  return markRes;
 }

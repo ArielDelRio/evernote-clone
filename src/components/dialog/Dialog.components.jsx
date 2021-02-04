@@ -18,15 +18,20 @@ export default function FormDialog({
 
   const [newNoteState, setnewNoteState] = useState({
     title: "",
-    type: DEFAULT_TYPE,
+    type: DEFAULT_TYPE.id,
   });
 
   const handleNewNote = () => {
     const titleToAdd = newNoteState.title.trim();
+    console.log(newNoteState);
     if (titleToAdd.length) {
       newNote(newNoteState);
-      setnewNoteState({ title: "", type: DEFAULT_TYPE });
+      setnewNoteState({ title: "", type: DEFAULT_TYPE.id });
     }
+  };
+
+  const handleChangeNoteState = (e) => {
+    setnewNoteState({ ...newNoteState, [e.target["name"]]: e.target.value });
   };
 
   return (
@@ -43,20 +48,19 @@ export default function FormDialog({
             autoFocus
             margin="dense"
             id="title"
+            name="title"
             label="Set title"
             type="text"
-            onChange={(e) =>
-              setnewNoteState({ ...newNoteState, title: e.target.value })
-            }
+            onChange={handleChangeNoteState}
           />
           <FormControl className={classes.formControl} margin="dense">
             <InputLabel id="edition_type">Type</InputLabel>
             <Select
               labelId="edition_type"
-              value={DEFAULT_TYPE.id}
-              onChange={(e) =>
-                setnewNoteState({ ...newNoteState, type: e.target.value })
-              }
+              id="type"
+              name="type"
+              value={newNoteState.type}
+              onChange={handleChangeNoteState}
             >
               {Object.values(EDITION_TYPES).map((type) => (
                 <MenuItem key={type.id} value={type.id}>

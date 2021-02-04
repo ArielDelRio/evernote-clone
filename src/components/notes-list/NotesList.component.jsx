@@ -3,11 +3,16 @@ import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 
 import useStyles from "./NotesList.style";
-import { ListItem, ListItemText, useMediaQuery } from "@material-ui/core";
+import {
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  useMediaQuery,
+} from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EDITION_TYPES from "../../EditionTypes";
 import { removeHTMLTags, getMarkdownText } from "../../helper";
-
+import InboxIcon from "@material-ui/icons/Inbox";
 import Alert from "../alert/Alert.component";
 
 const NotesList = ({
@@ -57,10 +62,10 @@ const NotesList = ({
     console.log(_note);
     switch (_note.type) {
       case EDITION_TYPES.QUILL.id:
-        return removeHTMLTags(_note.body.substring(0, 30)) + "...";
+        return removeHTMLTags(_note.body.substring(0, 20)) + "...";
       case EDITION_TYPES.MARKDOWN.id:
         return (
-          removeHTMLTags(getMarkdownText(_note.body.substring(0, 30))) + "..."
+          removeHTMLTags(getMarkdownText(_note.body).substring(0, 20)) + "..."
         );
       default:
         break;
@@ -72,7 +77,8 @@ const NotesList = ({
       <List disablePadding>
         {notes.map((_note, _index) => {
           const textPreview = getTextPreview(_note);
-          console.log(textPreview);
+          const Logo = EDITION_TYPES[_note.type].logo;
+          console.log(_note.type);
           return (
             <div key={_index}>
               <ListItem
@@ -87,6 +93,9 @@ const NotesList = ({
                     onClick={(event) => handleDeleteNote(_note, event)}
                     className={classes.deleteIcon}
                   />
+                  <ListItemIcon className={classes.typeIcon}>
+                    <Logo width={"1.36em"} />
+                  </ListItemIcon>
                 </div>
               </ListItem>
               <Divider />

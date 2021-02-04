@@ -4,15 +4,19 @@ const EDITION_TYPES = {
   QUILL: {
     id: "QUILL",
     name: "Quill",
-    logo: (
+    logo: ({ width, height }) => (
       <svg
         xmlns="http://www.w3.org/2000/svg"
         // xmlns:xlink="http://www.w3.org/1999/xlink"
         aria-hidden="true"
         focusable="false"
-        width="1em"
-        height="1em"
-        style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);"
+        width={width || "1em"}
+        height={height || "1em"}
+        style={{
+          msTransform: "rotate(360deg)",
+          WebkitTransform: "rotate(360deg)",
+          transform: "rotate(360deg)",
+        }}
         preserveAspectRatio="xMidYMid meet"
         viewBox="0 0 16 16"
       >
@@ -26,15 +30,19 @@ const EDITION_TYPES = {
   MARKDOWN: {
     id: "MARKDOWN",
     name: "Markdown",
-    logo: (
+    logo: ({ width, height }) => (
       <svg
         xmlns="http://www.w3.org/2000/svg"
         // xmlns:xlink="http://www.w3.org/1999/xlink"
         aria-hidden="true"
         focusable="false"
-        width="1.63em"
-        height="1em"
-        style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);"
+        width={width || "1em"}
+        height={height || "1em"}
+        style={{
+          msTransform: "rotate(360deg)",
+          WebkitTransform: "rotate(360deg)",
+          transform: "rotate(360deg)",
+        }}
         preserveAspectRatio="xMidYMid meet"
         viewBox="0 0 256 158"
       >
@@ -47,5 +55,5 @@ const EDITION_TYPES = {
   },
 };
 
-export const DEFAULT_TYPE = EDITION_TYPES.MARKDOWN;
+export const DEFAULT_TYPE = EDITION_TYPES.QUILL;
 export default EDITION_TYPES;

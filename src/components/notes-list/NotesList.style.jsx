@@ -15,6 +15,13 @@ const useStyles = makeStyles((theme) => ({
     },
     alignSelf: "center",
   },
+  typeIcon: {
+    marginTop: 0,
+    position: "relative",
+    minWidth: 0,
+    top: "-8px",
+    right: "-15px",
+  },
 }));
 
 export default useStyles;
