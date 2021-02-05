@@ -26,7 +26,7 @@ const styles = (theme) => ({
     padding: "10px",
   },
   editorContainer: {
-    height: "100vh",
+    // height: "100vh",
     width: "100%",
     boxSizing: "border-box",
   },

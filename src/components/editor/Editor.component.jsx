@@ -6,7 +6,7 @@ import debounce, {
   htmlToMarkdown,
   removeHTMLTags,
 } from "../../helper";
-import BorderColorIcon from "@material-ui/icons/BorderColor";
+import { BorderColor, Visibility, VisibilityOff } from "@material-ui/icons";
 import QuillEditor from "../quill-editor/QuillEditor.component";
 import {
   TextField,
@@ -14,6 +14,7 @@ import {
   Grid,
   Switch,
   Typography,
+  Hidden,
 } from "@material-ui/core";
 import styles from "./Editor.style";
 import EDITION_TYPES from "../../EditionTypes";
@@ -88,7 +89,7 @@ class Editor extends Component {
         <div className={classes.titleInput}>
           <Grid container justify="space-between" alignItems="flex-end">
             <Grid style={{ display: "inline-flex" }}>
-              <BorderColorIcon className={classes.editIcon} />
+              <BorderColor className={classes.editIcon} />
               <TextField
                 inputProps={{
                   className: classes.input,
@@ -106,6 +107,22 @@ class Editor extends Component {
                   alignItems="center"
                   spacing={1}
                 >
+                  <Hidden smUp>
+                    <Grid item>
+                      <Switch
+                        checked={this.state.type === EDITION_TYPES.MARKDOWN.id}
+                        color="primary"
+                        icon={<VisibilityOff />}
+                        checkedIcon={<Visibility />}
+                        classes={{
+                          track: classes.switch_track,
+                          switchBase: classes.switch_base,
+                          colorPrimary: classes.switch_primary,
+                        }}
+                        onChange={(e) => this.updateType(e.target.checked)}
+                      />
+                    </Grid>
+                  </Hidden>
                   <Grid item>
                     <Switch
                       checked={this.state.type === EDITION_TYPES.MARKDOWN.id}
@@ -126,11 +143,6 @@ class Editor extends Component {
           </Grid>
         </div>
         {this.state.type === EDITION_TYPES.QUILL.id && (
-          // <ReactQuill
-          //   className={classes.quill}
-          //   value={this.state.text}
-          //   onChange={this.handleUpdateBody}
-          // />
           <QuillEditor
             content={this.state.text}
             handleUpdateBody={this.handleUpdateBody}

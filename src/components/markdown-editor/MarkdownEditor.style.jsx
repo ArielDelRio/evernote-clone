@@ -20,8 +20,9 @@ const useStyles = makeStyles((theme) => ({
     display: "block",
     overflowWrap: "break-word",
     overflowY: "auto",
+    overflowX: "hidden",
     color: theme.palette.getContrastText("#fff"),
-    height: "calc(100vh - 130px)",
+    height: "calc(100vh - 140px)",
     [theme.breakpoints.down("xs")]: {
       height: "calc(100vh - 120px)",
     },
