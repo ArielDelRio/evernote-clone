@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import useStyles from "./MarkdownEditor.style";
 import {
   FilledInput,
@@ -8,7 +8,9 @@ import {
   Input,
   InputLabel,
   Paper,
+  useMediaQuery,
 } from "@material-ui/core";
+
 import { getMarkdownText } from "../../helper";
 
 //Editor Component
@@ -47,20 +49,31 @@ const Preview = ({ content, classes }) => (
   </Paper>
 );
 
-const MarkdownEditor = ({ content, handleUpdateBody }) => {
+const MarkdownEditor = ({
+  content,
+  showPreviewOnSmallScreen,
+  handleUpdateBody,
+}) => {
+  const smScreen = useMediaQuery("(max-width:600px)");
+
   const classes = useStyles();
   return (
     <Grid container className={classes.root} spacing={2}>
       <Grid item xs={12}>
         <Grid container>
-          <Grid item sm={6} xs={12}>
+          <Grid
+            item
+            sm={6}
+            xs={12}
+            hidden={smScreen && showPreviewOnSmallScreen}
+          >
             <Editor
               content={content}
               classes={classes}
               handleUpdateBody={handleUpdateBody}
             />
           </Grid>
-          <Grid item sm={6}>
+          <Grid item sm={6} hidden={smScreen && !showPreviewOnSmallScreen}>
             <Preview content={content} classes={classes} />
           </Grid>
         </Grid>

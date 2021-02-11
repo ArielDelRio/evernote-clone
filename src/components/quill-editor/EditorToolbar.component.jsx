@@ -1,5 +1,6 @@
 import React from "react";
 import { Quill } from "react-quill";
+import { Mic, MicOff, MicNoneSharp } from "@material-ui/icons";
 
 // Custom Undo button icon component for Quill editor. You can import it directly
 // from 'quill/assets/icons/undo.svg' but I found that a number of loaders do not
@@ -83,13 +84,17 @@ export const formats = [
   "bullet",
   "indent",
   "link",
-  "image",
+  // "image",
   "color",
   "code-block",
 ];
 
 // Quill Toolbar component
-export const QuillToolbar = () => (
+export const QuillToolbar = ({
+  listening,
+  handleVoiceRecording,
+  supportsSpeechRecognition,
+}) => (
   <div id="toolbar">
     <span className="ql-formats">
       <select className="ql-font" defaultValue="arial">
@@ -137,8 +142,8 @@ export const QuillToolbar = () => (
     </span>
     <span className="ql-formats">
       <button className="ql-link" />
-      <button className="ql-image" />
-      <button className="ql-video" />
+      {/* <button className="ql-image" /> */}
+      {/* <button className="ql-video" /> */}
     </span>
     <span className="ql-formats">
       <button className="ql-formula" />
@@ -151,6 +156,15 @@ export const QuillToolbar = () => (
       </button>
       <button className="ql-redo">
         <CustomRedo />
+      </button>
+    </span>
+    <span className="ql-formats">
+      <button
+        className="ql-action"
+        onClick={handleVoiceRecording}
+        disabled={!supportsSpeechRecognition}
+      >
+        {listening || !supportsSpeechRecognition ? <MicOff /> : <Mic />}
       </button>
     </span>
   </div>

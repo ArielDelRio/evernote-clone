@@ -59,7 +59,6 @@ const NotesList = ({
   };
 
   const getTextPreview = (_note) => {
-    console.log(_note);
     switch (_note.type) {
       case EDITION_TYPES.QUILL.id:
         return removeHTMLTags(_note.body.substring(0, 20)) + "...";
@@ -78,7 +77,6 @@ const NotesList = ({
         {notes.map((_note, _index) => {
           const textPreview = getTextPreview(_note);
           const Logo = EDITION_TYPES[_note.type].logo;
-          console.log(_note.type);
           return (
             <div key={_index}>
               <ListItem

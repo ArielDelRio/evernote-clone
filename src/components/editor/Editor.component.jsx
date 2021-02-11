@@ -1,26 +1,11 @@
 import React, { Component } from "react";
-import ReactQuill from "react-quill";
 import MarkdownEditor from "../markdown-editor/MarkdownEditor.component";
-import debounce, {
-  getMarkdownText,
-  htmlToMarkdown,
-  removeHTMLTags,
-} from "../../helper";
-import { BorderColor, Visibility, VisibilityOff } from "@material-ui/icons";
+import debounce, { getMarkdownText, htmlToMarkdown } from "../../helper";
 import QuillEditor from "../quill-editor/QuillEditor.component";
-import {
-  TextField,
-  withStyles,
-  Grid,
-  Switch,
-  Typography,
-  Hidden,
-} from "@material-ui/core";
+import { withStyles } from "@material-ui/core";
 import styles from "./Editor.style";
 import EDITION_TYPES from "../../EditionTypes";
-
-const MarkdownLogo = EDITION_TYPES.MARKDOWN.logo;
-const QuillLogo = EDITION_TYPES.QUILL.logo;
+import EditorHeader from "./editor-header/EditorHeader.component";
 
 class Editor extends Component {
   constructor() {
@@ -30,6 +15,7 @@ class Editor extends Component {
       title: "",
       type: "",
       id: "",
+      showPreviewOnSmallScreen: false,      
     };
   }
 
@@ -82,66 +68,23 @@ class Editor extends Component {
     });
   }, 1500);
 
+  handleShowPreviewOnSmallScreen = () => {
+    console.log('toggle visibility');
+    this.setState({ showPreviewOnSmallScreen: !this.state.showPreviewOnSmallScreen });
+  }
+
   render() {
     const { classes } = this.props;
     return (
       <div className={classes.editorContainer}>
-        <div className={classes.titleInput}>
-          <Grid container justify="space-between" alignItems="flex-end">
-            <Grid style={{ display: "inline-flex" }}>
-              <BorderColor className={classes.editIcon} />
-              <TextField
-                inputProps={{
-                  className: classes.input,
-                }}
-                placeholder="Note title..."
-                value={this.state.title || ""}
-                onChange={(e) => this.updateTitle(e.target.value)}
-              />
-            </Grid>
-            <Grid item>
-              <Typography component="div">
-                <Grid
-                  component="label"
-                  container
-                  alignItems="center"
-                  spacing={1}
-                >
-                  <Hidden smUp>
-                    <Grid item>
-                      <Switch
-                        checked={this.state.type === EDITION_TYPES.MARKDOWN.id}
-                        color="primary"
-                        icon={<VisibilityOff />}
-                        checkedIcon={<Visibility />}
-                        classes={{
-                          track: classes.switch_track,
-                          switchBase: classes.switch_base,
-                          colorPrimary: classes.switch_primary,
-                        }}
-                        onChange={(e) => this.updateType(e.target.checked)}
-                      />
-                    </Grid>
-                  </Hidden>
-                  <Grid item>
-                    <Switch
-                      checked={this.state.type === EDITION_TYPES.MARKDOWN.id}
-                      color="primary"
-                      icon={<QuillLogo />}
-                      checkedIcon={<MarkdownLogo />}
-                      classes={{
-                        track: classes.switch_track,
-                        switchBase: classes.switch_base,
-                        colorPrimary: classes.switch_primary,
-                      }}
-                      onChange={(e) => this.updateType(e.target.checked)}
-                    />
-                  </Grid>
-                </Grid>
-              </Typography>
-            </Grid>
-          </Grid>
-        </div>
+        <EditorHeader
+          title={this.state.title}
+          type={this.state.type}
+          updateTitle={this.updateTitle}
+          updateType={this.updateType}
+          handleShowPreviewOnSmallScreen={this.handleShowPreviewOnSmallScreen}
+          showPreviewOnSmallScreen={this.state.showPreviewOnSmallScreen}
+        />
         {this.state.type === EDITION_TYPES.QUILL.id && (
           <QuillEditor
             content={this.state.text}
@@ -151,6 +94,7 @@ class Editor extends Component {
         {this.state.type === EDITION_TYPES.MARKDOWN.id && (
           <MarkdownEditor
             content={this.state.text}
+            showPreviewOnSmallScreen={this.state.showPreviewOnSmallScreen}
             handleUpdateBody={this.handleUpdateBody}
           />
         )}

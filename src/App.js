@@ -82,7 +82,6 @@ const App = () => {
           data["id"] = _doc.id;
           return data;
         });
-        console.log(notes);
         setState((prevState) => ({ ...prevState, notes: notes }));
       });
   }, []);

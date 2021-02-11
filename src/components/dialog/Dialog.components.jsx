@@ -23,7 +23,6 @@ export default function FormDialog({
 
   const handleNewNote = () => {
     const titleToAdd = newNoteState.title.trim();
-    console.log(newNoteState);
     if (titleToAdd.length) {
       newNote(newNoteState);
       setnewNoteState({ title: "", type: DEFAULT_TYPE.id });
