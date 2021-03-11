@@ -43,15 +43,15 @@ export const QuillEditor = ({ content, handleUpdateBody }) => {
   return (
     <Box
       className={classes.editor_container}
-      display="flex"
-      flexDirection="column"
+      // display="flex"
+      // flexDirection="column"
     >
       <EditorToolbar
         listening={listening}
         handleVoiceRecording={handleVoiceRecording}
         supportsSpeechRecognition={SpeechRecognition.browserSupportsSpeechRecognition()}
       />
-      <Box flex={1} overflow="auto">
+      <Box>
         <ReactQuill
           className={classes.quill}
           readOnly={listening}

@@ -23,6 +23,7 @@ const Editor = ({ handleUpdateBody, content, classes }) => (
         classes={{ input: classes.editorInputTextArea }}
         multiline
         rows={1}
+        margin="dense"
         value={content}
         onChange={(e) => handleUpdateBody(e.target.value)}
       />
