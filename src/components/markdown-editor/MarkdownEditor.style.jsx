@@ -10,16 +10,20 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
   },
+  inputMultiline: {
+    paddingTop: 0,
+  },
   editorInputTextArea: {
     paddingBottom: "8em",
     display: "block",
     color: theme.palette.getContrastText("#fff"),
     minHeight: "calc(100vh - 145px)",
-    [theme.breakpoints.down("xs")]: {
-      minHeight: "calc(100vh - 265px)",
-    },
+    // [theme.breakpoints.down("xs")]: {
+    //   minHeight: "calc(100vh - 265px)",
+    // },
   },
   previewInputTextArea: {
+    wordBreak: "break-word",
     paddingBottom: "8em",
     marginTop: 20,
     display: "block",
@@ -29,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.getContrastText("#fff"),
     height: "calc(100vh - 140px)",
     [theme.breakpoints.down("xs")]: {
-      height: "calc(100vh - 120px)",
+      height: "calc(100vh - 230px)",
     },
   },
 }));

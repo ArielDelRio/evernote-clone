@@ -5,7 +5,6 @@ import {
   FormControl,
   FormHelperText,
   Grid,
-  Input,
   InputLabel,
   Paper,
   useMediaQuery,
@@ -20,7 +19,10 @@ const Editor = ({ handleUpdateBody, content, classes }) => (
       <InputLabel htmlFor="editor">Markdown Editor</InputLabel>
       <FilledInput
         id="editor"
-        classes={{ input: classes.editorInputTextArea }}
+        classes={{
+          input: classes.editorInputTextArea,
+          inputMultiline: classes.inputMultiline,
+        }}
         multiline
         rows={1}
         margin="dense"

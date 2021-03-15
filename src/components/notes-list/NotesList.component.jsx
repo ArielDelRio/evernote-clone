@@ -91,7 +91,13 @@ const NotesList = ({
                     onClick={(event) => handleDeleteNote(_note, event)}
                     className={classes.deleteIcon}
                   />
-                  <ListItemIcon className={classes.typeIcon}>
+                  <ListItemIcon
+                    className={classes.typeIcon}
+                    classes={{
+                      root: classes.root,
+                      alignItemsFlexStart: classes.alignItemsFlexStart,
+                    }}
+                  >
                     <Logo width={"1.36em"} />
                   </ListItemIcon>
                 </div>
