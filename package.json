@@ -34,9 +34,10 @@
     "gh-pages": "^3.1.0"
   },
   "scripts": {
+    "start": "node ./server.js",
     "start:dev": "concurrently \"nodemon ./server.js\" \"react-scripts start\"",
     "start:server": "nodemon ./server.js",
-    "start": "react-scripts start",
+    "start:react": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
