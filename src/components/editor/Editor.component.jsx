@@ -15,7 +15,7 @@ class Editor extends Component {
       title: "",
       type: "",
       id: "",
-      showPreviewOnSmallScreen: false,      
+      showPreviewOnSmallScreen: false,
     };
   }
 
@@ -69,9 +69,11 @@ class Editor extends Component {
   }, 1500);
 
   handleShowPreviewOnSmallScreen = () => {
-    console.log('toggle visibility');
-    this.setState({ showPreviewOnSmallScreen: !this.state.showPreviewOnSmallScreen });
-  }
+    console.log("toggle visibility");
+    this.setState({
+      showPreviewOnSmallScreen: !this.state.showPreviewOnSmallScreen,
+    });
+  };
 
   render() {
     const { classes } = this.props;
