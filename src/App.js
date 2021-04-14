@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from "react";
-import "./app.css";
+import axios from "axios";
+import socketIOClient from "socket.io-client";
 
-import firebase from "firebase";
+import { DOMAIN } from "./config";
 
+import { Box, Button, Divider } from "@material-ui/core";
 import PlusIcon from "@material-ui/icons/AddCircle";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import IconButton from "@material-ui/core/IconButton";
 
-import Editor from "./components/editor/Editor.component";
+import Auth from "./components/auth/Auth.component";
 import Header from "./components/header/Header.components";
 import Drawer from "./components/drawer/Drawer.component";
-import NotesList from "./components/notes-list/NotesList.component";
-import { Box, Button, Divider } from "@material-ui/core";
-import clsx from "clsx";
-
-import { makeStyles } from "@material-ui/core/styles";
-
 import DialogForm from "../src/components/dialog/Dialog.components";
+import Editor from "./components/editor/Editor.component";
+import NotesList from "./components/notes-list/NotesList.component";
 
-import Auth from "./components/auth/Auth.component";
+import clsx from "clsx";
+import { makeStyles } from "@material-ui/core/styles";
+import "./app.css";
 
 const drawerWidth = 250;
 
@@ -72,18 +72,10 @@ const App = () => {
   });
 
   useEffect(() => {
-    firebase
-      .firestore()
-      .collection("notes")
-      .orderBy("timestamp")
-      .onSnapshot((serverUpdate) => {
-        const notes = serverUpdate.docs.map((_doc) => {
-          const data = _doc.data();
-          data["id"] = _doc.id;
-          return data;
-        });
-        setState((prevState) => ({ ...prevState, notes: notes }));
-      });
+    const socket = socketIOClient();
+    socket.on("GET_NOTES", (data) => {
+      setState((prevState) => ({ ...prevState, notes: data }));
+    });
   }, []);
 
   const selectNote = (note, index) => {
@@ -95,15 +87,13 @@ const App = () => {
   };
 
   const newNote = async ({ title, type }) => {
-    const newNotefromDB = await firebase.firestore().collection("notes").add({
+    const response = await axios.post(`${DOMAIN}/notes`, {
       title: title,
       type: type,
-      body: "",
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
 
     const selectedNote = {
-      id: newNotefromDB.id,
+      id: response.data.id,
       title: title,
       type: type,
       body: "",
@@ -118,23 +108,18 @@ const App = () => {
     });
   };
 
-  const noteUpdate = (id, note) => {
-    console.log("update");
-    console.log(note);
-    firebase.firestore().collection("notes").doc(id).update({
-      title: note.title,
-      type: note.type,
-      body: note.body,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+  const noteUpdate = async (id, note) => {
+    const response = await axios.put(`${DOMAIN}/notes/${id}`, {
+      note: note,
     });
   };
 
-  const deleteNote = (note) => {
+  const deleteNote = async (note) => {
     const noteIndex = state.notes.indexOf(note);
     if (state.selectedNoteIndex === noteIndex) {
       setState({ ...state, selectedNote: null, selectedNoteIndex: null });
     }
-    firebase.firestore().collection("notes").doc(note.id).delete();
+    const response = await axios.delete(`${DOMAIN}/notes/${note.id}`);
   };
 
   const handleDrawerToggle = (event) => {
@@ -155,17 +140,13 @@ const App = () => {
     setState({ ...state, isAuth: true });
   };
 
-  const logout = () => {
-    firebase
-      .auth()
-      .signOut()
-      .then((value) => {
-        console.log(value);
-        setState({ ...state, isAuth: false });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const logout = async () => {
+    console.log("logout");
+    const response = await axios.post(`${DOMAIN}/auth/logout`);
+
+    console.log(response.data);
+
+    setState({ ...state, isAuth: false });
   };
 
   console.log(state);
