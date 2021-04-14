@@ -152,6 +152,6 @@ app.post("/auth/singin", async (req, res) => {
 });
 
 // start express server on port 5000
-server.listen(5000, () => {
-  console.log("server started on port 5000");
+server.listen(process.env.PORT || "5001", () => {
+  console.log(`server started on port ${process.env.PORT || "5001"}`);
 });
