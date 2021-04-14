@@ -5,6 +5,7 @@ import firebase from "firebase";
 import { IconButton, Snackbar, SnackbarContent } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import useStyles from "./Auth.style";
+import axios from "axios";
 
 const FIREBASE_ERRORS = {
   INVALID_EMAIL: "auth/invalid-email",
@@ -87,29 +88,13 @@ const Auth = ({ authenticate }) => {
       });
   };
 
-  const signIn = (email, password) => {
+  const signIn = async (email, password) => {
     setloading(true);
 
-    firebase
-      .auth()
-      .setPersistence(firebase.auth.Auth.Persistence.SESSION)
-      .then(() => {
-        firebase
-          .auth()
-          .signInWithEmailAndPassword(email, password)
-          .then((userCredential) => {
-            console.log(userCredential);
-            authenticate(userCredential);
-            setvalidation(CLEAR_VALIDATION);
-            setloading(false);
-          })
-          .catch((error) => {
-            console.log(error);
-            const validationInfo = validator(error);
-            setvalidation(validationInfo);
-            setloading(false);
-          });
-      });
+    const response = await axios.post(`http://localhost:5000/auth/singin`, {
+      email,
+      password,
+    });
   };
 
   console.log(validation);
