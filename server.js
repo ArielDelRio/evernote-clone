@@ -86,7 +86,7 @@ app.put("/notes/:id", async (req, res) => {
       title: note.title,
       type: note.type,
       body: note.body,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      //timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
 
   res.send(updatedNote);
