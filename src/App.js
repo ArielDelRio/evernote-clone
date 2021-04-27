@@ -8,7 +8,7 @@ import { io } from "socket.io-client";
 
 import { DOMAIN } from "./config";
 
-import { Box, Button, Divider } from "@material-ui/core";
+import { Box, Button, Divider, LinearProgress } from "@material-ui/core";
 import PlusIcon from "@material-ui/icons/AddCircle";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -27,6 +27,7 @@ const App = () => {
     selectedNoteIndex: null,
     selectedNote: null,
     notes: [],
+    isLoading: false,
     isDrawerOpen: true,
     newNoteDialogOpen: false,
     isAuth: true,
@@ -34,8 +35,13 @@ const App = () => {
 
   useEffect(() => {
     const socket = io(DOMAIN);
+    setState({ ...state, isLoading: true });
     socket.on("GET_NOTES", (data) => {
-      setState((prevState) => ({ ...prevState, notes: data }));
+      setState((prevState) => ({
+        ...prevState,
+        isLoading: false,
+        notes: data,
+      }));
     });
   }, []);
 
@@ -138,6 +144,8 @@ const App = () => {
             </IconButton>
           </div>
           <Divider />
+
+          {state.isLoading && <LinearProgress disableShrink />}
 
           <NotesList
             handleDrawerToggle={(event) => handleDrawerToggle(event)}
