@@ -7,12 +7,12 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Typography,
   useMediaQuery,
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EDITION_TYPES from "../../EditionTypes";
 import { removeHTMLTags, getMarkdownText } from "../../helper";
-import InboxIcon from "@material-ui/icons/Inbox";
 import Alert from "../alert/Alert.component";
 
 const NotesList = ({
@@ -72,41 +72,50 @@ const NotesList = ({
   };
 
   return (
-    <div>
-      <List disablePadding>
-        {notes.map((_note, _index) => {
-          const textPreview = getTextPreview(_note);
-          const Logo = EDITION_TYPES[_note.type].logo;
-          return (
-            <div key={_index}>
-              <ListItem
-                className={classes.listItem}
-                selected={selectedNoteIndex === _index}
-                alignItems="flex-start"
-                onClick={(event) => handleSelectNote(_note, _index, event)}
-              >
-                <div className={classes.textSection}>
-                  <ListItemText primary={_note.title} secondary={textPreview} />
-                  <DeleteIcon
-                    onClick={(event) => handleDeleteNote(_note, event)}
-                    className={classes.deleteIcon}
-                  />
-                  <ListItemIcon
-                    className={classes.typeIcon}
-                    classes={{
-                      root: classes.root,
-                      alignItemsFlexStart: classes.alignItemsFlexStart,
-                    }}
-                  >
-                    <Logo width={"1.36em"} />
-                  </ListItemIcon>
-                </div>
-              </ListItem>
-              <Divider />
-            </div>
-          );
-        })}
-      </List>
+    <>
+      {notes.length ? (
+        <List disablePadding>
+          {notes.map((_note, _index) => {
+            const textPreview = getTextPreview(_note);
+            const Logo = EDITION_TYPES[_note.type].logo;
+            return (
+              <div key={_index}>
+                <ListItem
+                  className={classes.listItem}
+                  selected={selectedNoteIndex === _index}
+                  alignItems="flex-start"
+                  onClick={(event) => handleSelectNote(_note, _index, event)}
+                >
+                  <div className={classes.textSection}>
+                    <ListItemText
+                      primary={_note.title}
+                      secondary={textPreview}
+                    />
+                    <DeleteIcon
+                      onClick={(event) => handleDeleteNote(_note, event)}
+                      className={classes.deleteIcon}
+                    />
+                    <ListItemIcon
+                      className={classes.typeIcon}
+                      classes={{
+                        root: classes.root,
+                        alignItemsFlexStart: classes.alignItemsFlexStart,
+                      }}
+                    >
+                      <Logo width={"1.36em"} />
+                    </ListItemIcon>
+                  </div>
+                </ListItem>
+                <Divider />
+              </div>
+            );
+          })}
+        </List>
+      ) : (
+        <Typography className={classes.noNotesInfo}>
+          There are no notes
+        </Typography>
+      )}
       {deleteAlertState._note && (
         <Alert
           deleteAlertState={deleteAlertState}
@@ -114,7 +123,7 @@ const NotesList = ({
           confirmAlert={confirmAlert}
         />
       )}
-    </div>
+    </>
   );
 };
 

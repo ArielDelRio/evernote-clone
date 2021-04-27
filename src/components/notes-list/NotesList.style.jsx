@@ -26,6 +26,14 @@ const useStyles = makeStyles((theme) => ({
   alignItemsFlexStart: {
     marginTop: "0 !important",
   },
+  noNotesInfo: {
+    display: "flex",
+    justifyContent: "center",
+    minHeight: "85vh",
+    opacity: ".8",
+    alignItems: "center",
+    fontSize: "larger",
+  },
 }));
 
 export default useStyles;
