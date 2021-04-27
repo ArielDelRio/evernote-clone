@@ -1,28 +1,9 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
-
-const useStyles = makeStyles((theme) => {
-  return {
-    list: {
-      width: 250,
-      [theme.breakpoints.down("xs")]: {
-        width: "100vw",
-      },
-    },
-    drawerHeader: {
-      display: "flex",
-      padding: theme.spacing(0, 1),
-
-      // necessary for content to be below app bar
-      ...theme.mixins.toolbar,
-      justifyContent: "space-between",
-    },
-  };
-});
+import styles from "./Drawer.style";
 
 const TemporaryDrawer = ({ children, isDrawerOpen, handleDrawerToggle }) => {
-  const classes = useStyles();
+  const classes = styles();
 
   return (
     <div>
