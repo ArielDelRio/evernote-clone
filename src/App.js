@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import socketIOClient from "socket.io-client";
+import "./app.css";
+import clsx from "clsx";
+import styles from "./app.style";
+
+import { io } from "socket.io-client";
 
 import { DOMAIN } from "./config";
 
@@ -17,50 +21,8 @@ import DialogForm from "../src/components/dialog/Dialog.components";
 import Editor from "./components/editor/Editor.component";
 import NotesList from "./components/notes-list/NotesList.component";
 
-import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
-import "./app.css";
-
-const drawerWidth = 250;
-
-const useStyles = makeStyles((theme) => ({
-  content: {
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: 0,
-  },
-  contentShift: {
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: drawerWidth,
-  },
-  newNoteBtn: {
-    height: "4rem",
-    color: theme.palette.success.main,
-  },
-
-  drawerHeader: {
-    display: "flex",
-    alignItems: "center",
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-    justifyContent: "space-between",
-  },
-
-  dashboard: {
-    display: "flex",
-    justifyContent: "center",
-    position: "relative",
-    top: "35vh",
-  },
-}));
-
 const App = () => {
-  const classes = useStyles();
+  const classes = styles();
   const [state, setState] = useState({
     selectedNoteIndex: null,
     selectedNote: null,
@@ -72,7 +34,7 @@ const App = () => {
   });
 
   useEffect(() => {
-    const socket = socketIOClient();
+    const socket = io(DOMAIN);
     socket.on("GET_NOTES", (data) => {
       setState((prevState) => ({ ...prevState, notes: data }));
     });
