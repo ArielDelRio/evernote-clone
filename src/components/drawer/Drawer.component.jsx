@@ -2,9 +2,8 @@ import React from "react";
 import Drawer from "@material-ui/core/Drawer";
 import styles from "./Drawer.style";
 
-const TemporaryDrawer = ({ children, isDrawerOpen, handleDrawerToggle }) => {
+const CustomDrawer = ({ children, isDrawerOpen }) => {
   const classes = styles();
-
   return (
     <div>
       <React.Fragment>
@@ -18,4 +17,4 @@ const TemporaryDrawer = ({ children, isDrawerOpen, handleDrawerToggle }) => {
   );
 };
 
-export default TemporaryDrawer;
+export default CustomDrawer;
