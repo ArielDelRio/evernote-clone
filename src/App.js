@@ -29,7 +29,6 @@ const App = () => {
     notes: [],
     isDrawerOpen: true,
     newNoteDialogOpen: false,
-    isOffline: false,
     isAuth: true,
   });
 
