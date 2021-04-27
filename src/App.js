@@ -139,8 +139,8 @@ const App = () => {
           <div className={classes.drawerHeader}>
             <Button
               variant="text"
-              // color="primary"
-              className={classes.newNoteBtn}
+              color="primary"
+              classes={{ root: classes.newNoteBtn }}
               startIcon={<PlusIcon />}
               onClick={() => setState({ ...state, newNoteDialogOpen: true })}
             >
