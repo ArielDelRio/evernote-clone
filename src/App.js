@@ -8,7 +8,14 @@ import { io } from "socket.io-client";
 
 import { DOMAIN } from "./config";
 
-import { Box, Button, Divider, LinearProgress, Paper } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  Divider,
+  LinearProgress,
+  Paper,
+  Zoom,
+} from "@material-ui/core";
 import PlusIcon from "@material-ui/icons/AddCircle";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -132,7 +139,7 @@ const App = () => {
           <div className={classes.drawerHeader}>
             <Button
               variant="text"
-              color="primary"
+              // color="primary"
               className={classes.newNoteBtn}
               startIcon={<PlusIcon />}
               onClick={() => setState({ ...state, newNoteDialogOpen: true })}
@@ -180,13 +187,15 @@ const App = () => {
           />
         ) : (
           <div className={classes.dashboard}>
-            <Paper variant="elevation" elevation={4}>
-              <img
-                className={classes.logo}
-                src="./logo.png"
-                alt="Evernote dashboard Logo"
-              />
-            </Paper>
+            <Zoom in timeout={1000}>
+              <Paper variant="elevation" elevation={4}>
+                <img
+                  className={classes.logo}
+                  src="./logo.png"
+                  alt="Evernote dashboard Logo"
+                />
+              </Paper>
+            </Zoom>
           </div>
         )}
       </Box>
