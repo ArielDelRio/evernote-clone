@@ -8,7 +8,7 @@ import { io } from "socket.io-client";
 
 import { DOMAIN } from "./config";
 
-import { Box, Button, Divider, LinearProgress } from "@material-ui/core";
+import { Box, Button, Divider, LinearProgress, Paper } from "@material-ui/core";
 import PlusIcon from "@material-ui/icons/AddCircle";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -145,7 +145,7 @@ const App = () => {
           </div>
           <Divider />
 
-          {state.isLoading && <LinearProgress disableShrink />}
+          {state.isLoading && <LinearProgress />}
 
           <NotesList
             handleDrawerToggle={(event) => handleDrawerToggle(event)}
@@ -180,7 +180,13 @@ const App = () => {
           />
         ) : (
           <div className={classes.dashboard}>
-            <img src="./react.png" alt="Evernote dashboard Logo" />
+            <Paper variant="elevation" elevation={4}>
+              <img
+                className={classes.logo}
+                src="./logo.png"
+                alt="Evernote dashboard Logo"
+              />
+            </Paper>
           </div>
         )}
       </Box>
