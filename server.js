@@ -122,7 +122,7 @@ app.post("/auth/logout", async (req, res) => {
   res.send(logout);
 });
 
-app.post("/auth/singin", async (req, res) => {
+app.post("/auth/signin", async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
@@ -135,6 +135,29 @@ app.post("/auth/singin", async (req, res) => {
         .signInWithEmailAndPassword(email, password)
         .then((credentialUser) => {
           return res.send(credentialUser.user);
+        })
+        .catch((error) => {
+          console.log("Error Code", error.code);
+          console.log("Error message", error.message);
+          return res.status(503).send(error);
+        });
+    });
+});
+
+app.post("/auth/signup", async (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  clientFirebase
+    .auth()
+    .setPersistence(clientFirebase.auth.Auth.Persistence.NONE)
+    .then(() => {
+      clientFirebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          console.log(userCredential);
+          return res.send(userCredential.user);
         })
         .catch((error) => {
           console.log("Error Code", error.code);

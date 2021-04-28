@@ -6,7 +6,7 @@ import { IconButton, Snackbar, SnackbarContent } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import useStyles from "./Auth.style";
 import axios from "axios";
-import { DOMAIN, PORT } from "../../config";
+import { DOMAIN } from "../../config";
 
 const FIREBASE_ERRORS = {
   INVALID_EMAIL: "auth/invalid-email",
@@ -32,16 +32,6 @@ const Auth = ({ authenticate }) => {
     email: { error: false, helperText: "" },
     password: { error: false, helperText: "" },
   });
-
-  useEffect(() => {
-    // firebase.auth().onAuthStateChanged(function (user) {
-    //   if (user) {
-    //     authenticate(user);
-    //   } else {
-    //     console.log("not login");
-    //   }
-    // });
-  }, []);
 
   const handleCloseSnackbar = () => {
     setvalidation({
@@ -74,34 +64,35 @@ const Auth = ({ authenticate }) => {
     return validationInfo;
   };
 
-  const signUp = (email, password) => {
+  const signUp = async (email, password) => {
     setloading(true);
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        console.log(userCredential);
-        authenticate(userCredential);
-        setvalidation(CLEAR_VALIDATION);
-        setloading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        const validationInfo = validator(error);
-        setvalidation(validationInfo);
-        setloading(false);
-      });
-  };
-
-  const signIn = async (email, password) => {
-    setloading(true);
-
     try {
-      const response = await axios.post(`${DOMAIN}/auth/singin`, {
+      const response = await axios.post(`${DOMAIN}/auth/signup`, {
         email,
         password,
       });
       console.log(response);
+
+      authenticate(response.data);
+      setvalidation(CLEAR_VALIDATION);
+      setloading(false);
+    } catch (error) {
+      console.log("Error", error.response);
+      const validationInfo = validator(error.response.data);
+      setvalidation(validationInfo);
+      setloading(false);
+    }
+  };
+
+  const signIn = async (email, password) => {
+    setloading(true);
+    try {
+      const response = await axios.post(`${DOMAIN}/auth/signin`, {
+        email,
+        password,
+      });
+      console.log(response);
+
       authenticate(response.data);
       setvalidation(CLEAR_VALIDATION);
       setloading(false);
