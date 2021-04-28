@@ -139,8 +139,25 @@ app.post("/auth/singin", async (req, res) => {
         .catch((error) => {
           console.log("Error Code", error.code);
           console.log("Error message", error.message);
-          return res.status(400).send(error);
+          return res.status(503).send(error);
         });
+    });
+});
+
+app.post("/auth/verify", async (req, res) => {
+  const token = req.body.token;
+  console.log("verify token", token);
+  firebase
+    .auth()
+    .getUser(token)
+    .then((userRecord) => {
+      // See the UserRecord reference doc for the contents of userRecord.
+      console.log(`Successfully fetched user data: ${userRecord.toJSON()}`);
+      res.status(200).send();
+    })
+    .catch((error) => {
+      console.log("Error fetching user data:", error);
+      return res.status(503).send(error);
     });
 });
 
