@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const firebase = require("firebase-admin");
+const clientFirebase = require("firebase");
 const cors = require("cors");
 const path = require("path");
 const http = require("http");
@@ -21,19 +22,29 @@ firebase.initializeApp({
   credential: firebase.credential.cert(serviceAccount),
 });
 
+clientFirebase.initializeApp({
+  apiKey: "AIzaSyC-rP19P1Nz6zmkX3DK5O_vE4KCGnH_GDE",
+  authDomain: "evernote-app-88845.firebaseapp.com",
+  projectId: "evernote-app-88845",
+  storageBucket: "evernote-app-88845.appspot.com",
+  messagingSenderId: "1030117439402",
+  appId: "1:1030117439402:web:4600f563fbd1904e369dd3",
+  measurementId: "G-1946BQPB1X",
+});
+
 app.use(express.static(path.join(__dirname, "..", "build")));
 app.use(express.static("build"));
 
 const server = http.createServer(app);
-const io = socketIo(server);
+//const io = socketIo(server);
 
 // dev
-// const io = socketIo(server, {
-//   cors: {
-//     origin: "http://localhost:3000",
-//     methods: ["GET", "POST"],
-//   },
-// });
+const io = socketIo(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+});
 
 io.on("connection", (socket) => {
   console.log("New client connected");
@@ -115,40 +126,22 @@ app.post("/auth/singin", async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  firebase
+  clientFirebase
     .auth()
-    .signInWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      // Signed in
-      var user = userCredential.user;
-      console.log(user);
-    })
-    .catch((error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log(error);
+    .setPersistence(clientFirebase.auth.Auth.Persistence.NONE)
+    .then(() => {
+      clientFirebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then((credentialUser) => {
+          return res.send(credentialUser.user);
+        })
+        .catch((error) => {
+          console.log("Error Code", error.code);
+          console.log("Error message", error.message);
+          return res.status(400).send(error);
+        });
     });
-
-  // firebase
-  //     .auth()
-  //     .setPersistence(firebase.auth.Auth.Persistence.SESSION)
-  //     .then(() => {
-  //       firebase
-  //         .auth()
-  //         .signInWithEmailAndPassword(email, password)
-  //         .then((userCredential) => {
-  //           console.log(userCredential);
-  //           authenticate(userCredential);
-  //           setvalidation(CLEAR_VALIDATION);
-  //           setloading(false);
-  //         })
-  //         .catch((error) => {
-  //           console.log(error);
-  //           const validationInfo = validator(error);
-  //           setvalidation(validationInfo);
-  //           setloading(false);
-  //         });
-  //     });
 });
 
 // start express server on port 5000

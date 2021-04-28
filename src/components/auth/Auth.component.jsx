@@ -6,12 +6,14 @@ import { IconButton, Snackbar, SnackbarContent } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import useStyles from "./Auth.style";
 import axios from "axios";
+import { DOMAIN, PORT } from "../../config";
 
 const FIREBASE_ERRORS = {
   INVALID_EMAIL: "auth/invalid-email",
   WRONG_PASSWORD: "auth/wrong-password",
   WEAK_PASSWORD: "auth/weak-password",
   NETWORK_REQUEST_FAILED: "auth/network-request-failed",
+  TOO_MANY_REQUESTS: "auth/too-many-requests",
 };
 
 const CLEAR_VALIDATION = {
@@ -32,13 +34,13 @@ const Auth = ({ authenticate }) => {
   });
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        authenticate(user);
-      } else {
-        console.log("not login");
-      }
-    });
+    // firebase.auth().onAuthStateChanged(function (user) {
+    //   if (user) {
+    //     authenticate(user);
+    //   } else {
+    //     console.log("not login");
+    //   }
+    // });
   }, []);
 
   const handleCloseSnackbar = () => {
@@ -61,6 +63,9 @@ const Auth = ({ authenticate }) => {
         validationInfo.password = { error: true, helperText: error.message };
         break;
       case FIREBASE_ERRORS.NETWORK_REQUEST_FAILED:
+        validationInfo.form = { error: true, helperText: error.message };
+        break;
+      case FIREBASE_ERRORS.TOO_MANY_REQUESTS:
         validationInfo.form = { error: true, helperText: error.message };
         break;
       default:
@@ -91,10 +96,21 @@ const Auth = ({ authenticate }) => {
   const signIn = async (email, password) => {
     setloading(true);
 
-    const response = await axios.post(`http://localhost:5000/auth/singin`, {
-      email,
-      password,
-    });
+    try {
+      const response = await axios.post(`${DOMAIN}/auth/singin`, {
+        email,
+        password,
+      });
+      console.log(response);
+      authenticate(response.data);
+      setvalidation(CLEAR_VALIDATION);
+      setloading(false);
+    } catch (error) {
+      console.log("Error", error.response);
+      const validationInfo = validator(error.response.data);
+      setvalidation(validationInfo);
+      setloading(false);
+    }
   };
 
   console.log(validation);
