@@ -28,7 +28,7 @@ import DialogForm from "../src/components/dialog/Dialog.components";
 import Editor from "./components/editor/Editor.component";
 import NotesList from "./components/notes-list/NotesList.component";
 
-const Dashboard = () => {
+const Dashboard = ({ logout }) => {
   const classes = styles();
   const [state, setState] = useState({
     selectedNoteIndex: null,
@@ -106,15 +106,6 @@ const Dashboard = () => {
       ...prevState,
       isDrawerOpen: !prevState.isDrawerOpen,
     }));
-  };
-
-  const logout = async () => {
-    console.log("logout");
-    const response = await axios.post(`${DOMAIN}/auth/logout`);
-
-    console.log(response.data);
-
-    setState({ ...state, isAuth: false });
   };
 
   console.log(state);

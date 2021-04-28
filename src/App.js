@@ -23,7 +23,7 @@ const App = () => {
       setState({ isAuth: response.status === 200, isLoading: false });
     } catch (error) {
       console.log(error);
-      setToken('');
+      setToken("");
       setState({ isAuth: false, isLoading: false });
     }
   };
@@ -32,6 +32,11 @@ const App = () => {
     console.log(userRecord);
     setToken(userRecord.uid);
     setState({ ...state, isAuth: true });
+  };
+
+  const logout = () => {
+    setToken("");
+    setState({ ...state, isAuth: false });
   };
 
   useEffect(() => {
@@ -43,7 +48,7 @@ const App = () => {
   return state.isLoading ? (
     <div>...loading</div>
   ) : state.isAuth ? (
-    <Dashboard />
+    <Dashboard logout={logout} />
   ) : (
     <Auth setToken={setToken} authenticate={authenticate} />
   );
