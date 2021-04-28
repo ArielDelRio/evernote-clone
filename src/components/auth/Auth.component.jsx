@@ -14,6 +14,7 @@ const FIREBASE_ERRORS = {
   WEAK_PASSWORD: "auth/weak-password",
   NETWORK_REQUEST_FAILED: "auth/network-request-failed",
   TOO_MANY_REQUESTS: "auth/too-many-requests",
+  EMAIL_ALREDY_IN_USE: "auth/email-already-in-use",
 };
 
 const CLEAR_VALIDATION = {
@@ -56,6 +57,9 @@ const Auth = ({ authenticate }) => {
         validationInfo.form = { error: true, helperText: error.message };
         break;
       case FIREBASE_ERRORS.TOO_MANY_REQUESTS:
+        validationInfo.form = { error: true, helperText: error.message };
+        break;
+      case FIREBASE_ERRORS.EMAIL_ALREDY_IN_USE:
         validationInfo.form = { error: true, helperText: error.message };
         break;
       default:
