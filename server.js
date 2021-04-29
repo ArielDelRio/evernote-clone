@@ -83,15 +83,22 @@ const getNotes = (socket) => {
 };
 
 app.post("/notes", async (req, res) => {
+  const uid = req.body.user_token;
   const title = req.body.title;
   const type = req.body.type;
 
-  const newNote = await firebase.firestore().collection("notes").add({
-    title: title,
-    type: type,
-    body: "",
-    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-  });
+  const newNote = await firebase
+    .firestore()
+    .collection("users")
+    .doc(uid)
+    .collection("notes")
+    .add({
+      title: title,
+      type: type,
+      body: "",
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+
   res.send(newNote);
 });
 

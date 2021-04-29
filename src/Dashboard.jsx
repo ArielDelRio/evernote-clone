@@ -61,6 +61,7 @@ const Dashboard = ({ logout, user_token }) => {
 
   const newNote = async ({ title, type }) => {
     const response = await axios.post(`${DOMAIN}/notes`, {
+      user_token: user_token,
       title: title,
       type: type,
     });
