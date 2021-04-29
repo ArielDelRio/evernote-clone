@@ -90,29 +90,28 @@ app.post("/notes", async (req, res) => {
   const userDoc = firebase.firestore().collection("users").doc(uid);
 
   const newNote = await userDoc.collection("notes").add({
-      title: title,
-      type: type,
-      body: "",
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    });
+    title: title,
+    type: type,
+    body: "",
+    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+  });
 
   res.send(newNote.id);
 });
 
 app.put("/notes/:id", async (req, res) => {
+  const uid = req.body.user_token;
   const note = req.body.note;
   const noteId = req.params.id;
 
-  const updatedNote = await firebase
-    .firestore()
-    .collection("notes")
-    .doc(noteId)
-    .update({
-      title: note.title,
-      type: note.type,
-      body: note.body,
-      //timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    });
+  const userDoc = firebase.firestore().collection("users").doc(uid);
+
+  const updatedNote = await userDoc.collection("notes").doc(noteId).update({
+    title: note.title,
+    type: note.type,
+    body: note.body,
+    //timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+  });
 
   res.send(updatedNote);
 });

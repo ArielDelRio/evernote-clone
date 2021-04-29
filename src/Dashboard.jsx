@@ -85,6 +85,7 @@ const Dashboard = ({ logout, user_token }) => {
 
   const noteUpdate = async (id, note) => {
     const response = await axios.put(`${DOMAIN}/notes/${id}`, {
+      user_token: user_token,
       note: note,
     });
   };
