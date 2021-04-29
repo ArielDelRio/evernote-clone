@@ -4,6 +4,7 @@ import Auth from "./components/auth/Auth.component";
 import Dashboard from "./Dashboard";
 import axios from "axios";
 import { DOMAIN } from "./config";
+import SplashLoading from "./components/splash-loading/SplashLoading";
 
 const App = () => {
   const [state, setState] = useState({
@@ -46,7 +47,7 @@ const App = () => {
   }, []);
 
   return state.isLoading ? (
-    <div>...loading</div>
+    <SplashLoading />
   ) : state.isAuth ? (
     <Dashboard logout={logout} user_token={token} />
   ) : (
