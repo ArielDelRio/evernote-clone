@@ -156,7 +156,15 @@ app.post("/auth/signup", async (req, res) => {
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
-          console.log(userCredential);
+          console.log(userCredential.user);
+
+          clientFirebase
+            .firestore()
+            .collection("users")
+            .doc(userCredential.user.uid)
+            .set({ email })
+            .catch(console.error);
+
           return res.send(userCredential.user);
         })
         .catch((error) => {
