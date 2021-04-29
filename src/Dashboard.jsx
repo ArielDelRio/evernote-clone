@@ -95,7 +95,9 @@ const Dashboard = ({ logout, user_token }) => {
     if (state.selectedNoteIndex === noteIndex) {
       setState({ ...state, selectedNote: null, selectedNoteIndex: null });
     }
-    const response = await axios.delete(`${DOMAIN}/notes/${note.id}`);
+    const response = await axios.delete(
+      `${DOMAIN}/notes/${note.id}/${user_token}`
+    );
   };
 
   const handleDrawerToggle = (event) => {

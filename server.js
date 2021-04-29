@@ -116,14 +116,13 @@ app.put("/notes/:id", async (req, res) => {
   res.send(updatedNote);
 });
 
-app.delete("/notes/:id", async (req, res) => {
+app.delete("/notes/:id/:user_token", async (req, res) => {
+  const uid = req.params.user_token;
   const noteId = req.params.id;
 
-  const noteDeleted = firebase
-    .firestore()
-    .collection("notes")
-    .doc(noteId)
-    .delete();
+  const userDoc = firebase.firestore().collection("users").doc(uid);
+
+  const noteDeleted = await userDoc.collection("notes").doc(noteId).delete();
 
   res.send(noteDeleted);
 });
