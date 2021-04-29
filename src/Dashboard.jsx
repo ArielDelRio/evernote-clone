@@ -64,10 +64,11 @@ const Dashboard = ({ logout, user_token }) => {
       user_token: user_token,
       title: title,
       type: type,
+      body: "",
     });
 
     const selectedNote = {
-      id: response.data.id,
+      id: response.data,
       title: title,
       type: type,
       body: "",

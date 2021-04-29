@@ -87,19 +87,16 @@ app.post("/notes", async (req, res) => {
   const title = req.body.title;
   const type = req.body.type;
 
-  const newNote = await firebase
-    .firestore()
-    .collection("users")
-    .doc(uid)
-    .collection("notes")
-    .add({
+  const userDoc = firebase.firestore().collection("users").doc(uid);
+
+  const newNote = await userDoc.collection("notes").add({
       title: title,
       type: type,
       body: "",
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
 
-  res.send(newNote);
+  res.send(newNote.id);
 });
 
 app.put("/notes/:id", async (req, res) => {
