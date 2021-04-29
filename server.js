@@ -17,20 +17,13 @@ app.use(
 );
 
 var serviceAccount = require("./evernote-app-88845-firebase-adminsdk-9vxl6-adffdbaab6.json");
+var clientFirebaseKeys = require("./client-firebase-keys.json");
 
 firebase.initializeApp({
   credential: firebase.credential.cert(serviceAccount),
 });
 
-clientFirebase.initializeApp({
-  apiKey: "AIzaSyC-rP19P1Nz6zmkX3DK5O_vE4KCGnH_GDE",
-  authDomain: "evernote-app-88845.firebaseapp.com",
-  projectId: "evernote-app-88845",
-  storageBucket: "evernote-app-88845.appspot.com",
-  messagingSenderId: "1030117439402",
-  appId: "1:1030117439402:web:4600f563fbd1904e369dd3",
-  measurementId: "G-1946BQPB1X",
-});
+clientFirebase.initializeApp(clientFirebaseKeys);
 
 app.use(express.static(path.join(__dirname, "..", "build")));
 app.use(express.static("build"));
