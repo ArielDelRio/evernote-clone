@@ -10,7 +10,6 @@ class SidebarItem extends Component {
   };
 
   deleteNote = (_note, event) => {
-    console.log("delete");
     event.stopPropagation();
     if (window.confirm(`Are you sure you want to delete: ${_note.title}`)) {
       this.props.deleteNote(_note);

@@ -15,7 +15,6 @@ const App = () => {
   const { token, setToken } = useToken();
 
   const verifyToken = async () => {
-    console.log("verify token");
     setState({ ...state, isLoading: true });
     try {
       const response = await axios.post(`${DOMAIN}/auth/verify`, {
@@ -30,7 +29,6 @@ const App = () => {
   };
 
   const authenticate = (userRecord) => {
-    console.log(userRecord);
     setToken(userRecord.uid);
     setState({ ...state, isAuth: true });
   };

@@ -69,7 +69,6 @@ class Editor extends Component {
   }, 1500);
 
   handleShowPreviewOnSmallScreen = () => {
-    console.log("toggle visibility");
     this.setState({
       showPreviewOnSmallScreen: !this.state.showPreviewOnSmallScreen,
     });

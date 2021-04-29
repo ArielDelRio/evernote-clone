@@ -10,7 +10,6 @@ export default function AlertDialog({
   closeAlert,
   confirmAlert,
 }) {
-  console.log(deleteAlertState);
   return (
     <Dialog
       open={deleteAlertState.open}

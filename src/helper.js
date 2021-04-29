@@ -32,6 +32,5 @@ export function getMarkdownText(str) {
 export function htmlToMarkdown(str) {
   const turndownService = new TurndownService();
   const markRes = turndownService.turndown(str);
-  console.log(markRes);
   return markRes;
 }

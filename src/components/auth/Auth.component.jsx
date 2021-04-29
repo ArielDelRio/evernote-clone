@@ -79,7 +79,6 @@ const Auth = ({ authenticate }) => {
         email,
         password,
       });
-      console.log(response);
 
       authenticate(response.data);
       setvalidation(CLEAR_VALIDATION);
@@ -99,7 +98,6 @@ const Auth = ({ authenticate }) => {
         email,
         password,
       });
-      console.log(response);
 
       authenticate(response.data);
       setvalidation(CLEAR_VALIDATION);
@@ -112,7 +110,6 @@ const Auth = ({ authenticate }) => {
     }
   };
 
-  console.log(validation);
   return (
     <div>
       {validation.form.error && (
