@@ -34,7 +34,10 @@ const styles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     position: "relative",
-    top: "35vh",
+    top: "30vh",
+  },
+  logo: {
+    maxHeight: "50vw",
   },
 }));
 

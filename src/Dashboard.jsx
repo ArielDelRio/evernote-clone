@@ -180,7 +180,11 @@ const Dashboard = ({ logout, user_token }) => {
           <div className={classes.dashboard}>
             <Zoom in timeout={1000}>
               <Paper variant="elevation" elevation={4}>
-                <img src="./logo.png" alt="Evernote dashboard Logo" />
+                <img
+                  className={classes.logo}
+                  src="./logo.png"
+                  alt="Evernote dashboard Logo"
+                />
               </Paper>
             </Zoom>
           </div>
