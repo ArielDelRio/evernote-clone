@@ -10,6 +10,7 @@ import { DOMAIN } from "../../config";
 
 const FIREBASE_ERRORS = {
   INVALID_EMAIL: "auth/invalid-email",
+  USER_NOT_FOUND: "auth/user-not-found",
   WRONG_PASSWORD: "auth/wrong-password",
   WEAK_PASSWORD: "auth/weak-password",
   NETWORK_REQUEST_FAILED: "auth/network-request-failed",
@@ -60,6 +61,9 @@ const Auth = ({ authenticate }) => {
         validationInfo.form = { error: true, helperText: error.message };
         break;
       case FIREBASE_ERRORS.EMAIL_ALREDY_IN_USE:
+        validationInfo.form = { error: true, helperText: error.message };
+        break;
+      case FIREBASE_ERRORS.USER_NOT_FOUND:
         validationInfo.form = { error: true, helperText: error.message };
         break;
       default:
