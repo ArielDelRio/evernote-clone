@@ -76,6 +76,7 @@ const Dashboard = ({ logout, user_token }) => {
 
     setState({
       ...state,
+      notes: [...state.notes, selectedNote],
       selectedNote: selectedNote,
       selectedNoteIndex: state.notes.length,
       newNoteDialogOpen: false,
