@@ -16,14 +16,27 @@ app.use(
   })
 );
 
-var serviceAccount = require("./evernote-app-88845-firebase-adminsdk-9vxl6-adffdbaab6.json");
-var clientFirebaseKeys = require("./client-firebase-keys.json");
+// var serviceAccount = require("./evernote-app-88845-firebase-adminsdk-9vxl6-adffdbaab6.json");
+// var clientFirebaseKeys = require("./client-firebase-keys.json");
 
 firebase.initializeApp({
-  credential: firebase.credential.cert(serviceAccount),
+  // credential: firebase.credential.cert(serviceAccount),
+  credential: firebase.credential.cert({
+    projectId: process.env.PROJECT_ID,
+    private_key: process.env.PRIVATE_KEY.replace(/\\n/g, "\n"),
+    client_email: process.env.CLIENT_EMAIL,
+  }),
 });
 
-clientFirebase.initializeApp(clientFirebaseKeys);
+clientFirebase.initializeApp({
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  appId: process.env.APP_ID,
+  measurementId: process.env.MEASUREMENT_ID,
+});
 
 app.use(express.static(path.join(__dirname, "..", "build")));
 app.use(express.static("build"));
