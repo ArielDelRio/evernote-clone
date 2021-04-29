@@ -21,14 +21,13 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import IconButton from "@material-ui/core/IconButton";
 
-import Auth from "./components/auth/Auth.component";
 import Header from "./components/header/Header.components";
 import Drawer from "./components/drawer/Drawer.component";
 import DialogForm from "../src/components/dialog/Dialog.components";
 import Editor from "./components/editor/Editor.component";
 import NotesList from "./components/notes-list/NotesList.component";
 
-const Dashboard = ({ logout }) => {
+const Dashboard = ({ logout, user_token }) => {
   const classes = styles();
   const [state, setState] = useState({
     selectedNoteIndex: null,
@@ -40,7 +39,8 @@ const Dashboard = ({ logout }) => {
   });
 
   useEffect(() => {
-    const socket = io(`${DOMAIN}/`);
+    const socket = io(`${DOMAIN}/`, { query: `user_token=${user_token}` });
+
     setState({ ...state, isLoading: true });
     socket.on("GET_NOTES", (data) => {
       setState((prevState) => ({

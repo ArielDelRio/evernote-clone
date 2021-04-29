@@ -48,7 +48,7 @@ const App = () => {
   return state.isLoading ? (
     <div>...loading</div>
   ) : state.isAuth ? (
-    <Dashboard logout={logout} />
+    <Dashboard logout={logout} user_token={token} />
   ) : (
     <Auth setToken={setToken} authenticate={authenticate} />
   );

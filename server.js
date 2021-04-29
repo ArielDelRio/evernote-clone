@@ -55,7 +55,17 @@ io.on("connection", (socket) => {
 });
 
 const getNotes = (socket) => {
-  const doc = firebase.firestore().collection("notes").orderBy("timestamp");
+  console.log(socket);
+
+  const user_token = socket.handshake.query["user_token"];
+
+  // const doc = firebase.firestore().collection("notes").orderBy("timestamp");
+  const doc = firebase
+    .firestore()
+    .collection("users")
+    .doc(user_token)
+    .collection("notes")
+    .orderBy("timestamp");
 
   doc.onSnapshot(
     (serverUpdate) => {
