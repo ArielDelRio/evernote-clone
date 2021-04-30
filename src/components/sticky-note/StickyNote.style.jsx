@@ -32,6 +32,7 @@ const useStyles = makeStyles({
   content: {
     fontFamily: "Reenie Beanie, arial, sans-serif",
     fontWeight: "lighter",
+    wordWrap: "break-word",
   },
 });
 
