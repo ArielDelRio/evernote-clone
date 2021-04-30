@@ -32,9 +32,9 @@ const styles = makeStyles((theme) => ({
 
   dashboard: {
     display: "flex",
-    justifyContent: "center",
-    position: "relative",
-    top: "30vh",
+    padding: "20px",
+    justifyContent: "space-evenly",
+    flexWrap: "wrap",
   },
   logo: {
     maxHeight: "50vw",

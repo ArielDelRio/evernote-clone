@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EDITION_TYPES from "../../EditionTypes";
-import { removeHTMLTags, getMarkdownText } from "../../helper";
+import { removeHTMLTags, getMarkdownText, getTextPreview } from "../../helper";
 import Alert from "../alert/Alert.component";
 
 const NotesList = ({
@@ -56,19 +56,6 @@ const NotesList = ({
       _note: null,
       open: false,
     });
-  };
-
-  const getTextPreview = (_note) => {
-    switch (_note.type) {
-      case EDITION_TYPES.QUILL.id:
-        return removeHTMLTags(_note.body.substring(0, 20)) + "...";
-      case EDITION_TYPES.MARKDOWN.id:
-        return (
-          removeHTMLTags(getMarkdownText(_note.body).substring(0, 20)) + "..."
-        );
-      default:
-        break;
-    }
   };
 
   return (

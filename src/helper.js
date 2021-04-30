@@ -1,6 +1,7 @@
 import marked from "marked";
 import TurndownService from "turndown";
 import DOMPurify from "dompurify";
+import EDITION_TYPES from "./EditionTypes";
 
 export default function debounce(a, b, c) {
   var d, e;
@@ -15,6 +16,21 @@ export default function debounce(a, b, c) {
       clearTimeout(d), (d = setTimeout(h, b)), c && !d && (e = a.apply(f, g)), e
     );
   };
+}
+
+export function getTextPreview(_note, countOfCharacters = 20) {
+  switch (_note.type) {
+    case EDITION_TYPES.QUILL.id:
+      return removeHTMLTags(_note.body.substring(0, countOfCharacters)) + "...";
+    case EDITION_TYPES.MARKDOWN.id:
+      return (
+        removeHTMLTags(
+          getMarkdownText(_note.body).substring(0, countOfCharacters)
+        ) + "..."
+      );
+    default:
+      break;
+  }
 }
 
 export function removeHTMLTags(str) {

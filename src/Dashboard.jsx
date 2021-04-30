@@ -8,14 +8,7 @@ import { io } from "socket.io-client";
 
 import { DOMAIN, PORT } from "./config";
 
-import {
-  Box,
-  Button,
-  Divider,
-  LinearProgress,
-  Paper,
-  Zoom,
-} from "@material-ui/core";
+import { Box, Button, Divider, LinearProgress } from "@material-ui/core";
 import PlusIcon from "@material-ui/icons/AddCircle";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -26,6 +19,8 @@ import Drawer from "./components/drawer/Drawer.component";
 import DialogForm from "../src/components/dialog/Dialog.components";
 import Editor from "./components/editor/Editor.component";
 import NotesList from "./components/notes-list/NotesList.component";
+import StickyNote from "./components/sticky-note/StickyNote";
+import SplashLoading from "./components/splash-loading/SplashLoading";
 
 const Dashboard = ({ logout, user_token }) => {
   const classes = styles();
@@ -52,6 +47,7 @@ const Dashboard = ({ logout, user_token }) => {
   }, []);
 
   const selectNote = (note, index) => {
+    console.log(note, index);
     setState((prevState) => ({
       ...prevState,
       selectedNoteIndex: index,
@@ -176,17 +172,17 @@ const Dashboard = ({ logout, user_token }) => {
             selectedNoteIndex={state.selectedNoteIndex}
             noteUpdate={noteUpdate}
           />
+        ) : state.isLoading || !state.notes.length ? (
+          <SplashLoading />
         ) : (
           <div className={classes.dashboard}>
-            <Zoom in timeout={1000}>
-              <Paper variant="elevation" elevation={4}>
-                <img
-                  className={classes.logo}
-                  src="./logo.png"
-                  alt="Evernote dashboard Logo"
-                />
-              </Paper>
-            </Zoom>
+            {state.notes.map((note, index) => {
+              return (
+                <div key={note.id} onClick={() => selectNote(note, index)}>
+                  <StickyNote note={note} number={index} />
+                </div>
+              );
+            })}
           </div>
         )}
       </Box>
