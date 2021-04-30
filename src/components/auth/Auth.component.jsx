@@ -111,7 +111,7 @@ const Auth = ({ authenticate }) => {
   };
 
   return (
-    <div>
+    <div className={classes.authContainer}>
       {validation.form.error && (
         <Snackbar
           anchorOrigin={{
